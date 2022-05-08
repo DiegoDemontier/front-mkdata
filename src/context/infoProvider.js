@@ -4,23 +4,28 @@ import InfoContext from './infoContext';
 
 export default function InfoProvider({ children }) {
   const [data, setData] = React.useState([]);
+  const [editData, setEditData] = React.useState({
+    id: '',
+    status: '',
+    nameGroup: '',
+  });
 
   React.useEffect (() => {
-    const requestStudent = async () => {
+    const requestGroups = async () => {
       const request = await axios
         .get(`http://localhost:3001/groups`)
         .then((res) => res.data)
-        .catch((err) => {
-          return [];
-        });
+        .catch((err) => (err) => err.response);
         setData(request);
     };
-  requestStudent();
-  } , [data]);
+    requestGroups();
+  } , []);
 
   const contextValues = {
     data,
     setData,
+    editData,
+    setEditData,
   };
 
   return (

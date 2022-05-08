@@ -7,9 +7,28 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import InfoContext from '../context/infoContext';
+import { Button } from '@mui/material';
 
 export default function DenseTable() {
-  const { data } = React.useContext(InfoContext);
+  const { data, setEditData } = React.useContext(InfoContext);
+  const [ toogle, setToogle ] = React.useState(true);
+
+  const handleClick = (group) => {
+    setToogle(prev => !prev);
+    if (toogle) {
+      setEditData({
+        id: group.id,
+        status: group.ativo,
+        nameGroup: group.nome,
+      });
+    } else {
+      setEditData({
+        id: '',
+        status: '',
+        nameGroup: '',
+      });
+    }
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -32,7 +51,15 @@ export default function DenseTable() {
                 {row.nome}
               </TableCell>
               <TableCell align="right">{row.ativo ? 'Ativo': 'Desativado'}</TableCell>
-              <TableCell align="right">{row.ativo}</TableCell>
+              <TableCell align="right">
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={ () => handleClick(row) }
+              >
+                Editar
+              </Button>
+              </TableCell>
               <TableCell align="right">{row.ativo ? 'Ativo': 'Desativado'}</TableCell>
             </TableRow>
           ))}

@@ -9,9 +9,14 @@ import axios from 'axios';
 import InfoContext from '../context/infoContext';
 
 export default function BasicSelect() {
-  const { setData } = React.useContext(InfoContext);
+  const { data, setData, editData } = React.useContext(InfoContext);
   const [status, setStatus] = React.useState('');
   const [nameGroup, setNameGroup] = React.useState('');
+
+  React.useEffect (() => {
+    setStatus(editData.status);
+    setNameGroup(editData.nameGroup);
+  } , [editData]);
 
   const handleSubmit = async () => {
     const group = await axios
@@ -19,6 +24,17 @@ export default function BasicSelect() {
       .then((res) => res.data)
       .catch((err) => err.response);
     setData(prev => [...prev, group]);
+  }
+
+  const handleEdit = async () => {
+    await axios
+      .put(`http://localhost:3001/groups/${editData.id}`, { nome: nameGroup, ativo: status })
+      .then((res) => res.data)
+      .catch((err) => err.response);
+    
+    const index = data.findIndex(group => group.id === editData.id);
+    const newGroup = { ...data[index], nome: nameGroup, ativo: status };
+    setData(prev => [...prev.slice(0, index), newGroup, ...prev.slice(index + 1)]);
   }
 
   return (
@@ -48,9 +64,11 @@ export default function BasicSelect() {
       <Button
         variant="outlined"
         size="large"
-        onClick={ handleSubmit }
+        onClick={ 
+          editData.nameGroup.length > 0 ? () => handleEdit() : handleSubmit
+        }
       >
-        Enviar
+        {editData.nameGroup.length > 0 ? 'Salva' : 'Criar'}
       </Button>
     </div>
   );
