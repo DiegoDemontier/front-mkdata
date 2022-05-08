@@ -9,7 +9,7 @@ import axios from 'axios';
 import InfoContext from '../context/infoContext';
 
 export default function FormCustomer() {
-  const { data, setData, editData } = React.useContext(InfoContext);
+  const { data, setCustomers, editData } = React.useContext(InfoContext);
   const [status, setStatus] = React.useState('');
   const [name, setName] = React.useState('');
   const [type, setType] = React.useState('');
@@ -32,7 +32,7 @@ export default function FormCustomer() {
     )
   }
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const arrayDoc = [
       {
         nomeDocumento: doc1.nameDoc,
@@ -44,14 +44,26 @@ export default function FormCustomer() {
       }
     ]
 
-    const setData = {
+    const setCustomer = {
       nomeCliente: name,
       tipo: type,
       ativo: status,
       grupo: group,
       documentosCliente: arrayDoc.filter(e => e.dadoDocumento !== ''),
     }
-    console.log(name && setData);
+    
+    const customer = await axios
+      .post('http://localhost:3001/customers', setCustomer)
+      .then((res) => res.data)
+      .catch((err) => err.response);
+    
+    setCustomers(prev => [
+      ...prev, { 
+        id: customer.id,
+        ...setCustomer,
+        grupo: { nome: setCustomer.grupo}
+      }
+    ]);
   };
 
   return (

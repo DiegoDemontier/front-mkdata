@@ -2,6 +2,7 @@ import React from 'react';
 import GroupTable from '../components/GroupTable';
 import FormGroup from '../components/FormGroup';
 import FormCustomer from '../components/FormCustomer';
+import CustomerTable from '../components/CustomerTable';
 
 export default function Group() {
   const grudGroup = () => {
@@ -15,7 +16,10 @@ export default function Group() {
 
   const grudCustomer = () => {
     return (
-      <FormCustomer />
+      <div className="customer">
+        <FormCustomer />
+        <CustomerTable />
+      </div>
     )
   }
   return (
