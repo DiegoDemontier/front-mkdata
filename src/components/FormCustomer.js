@@ -16,6 +16,7 @@ export default function FormCustomer() {
   const [group, setGroup] = React.useState('');
   const [doc1, setDoc1] = React.useState({ nameDoc: '', dadoDoc: '' });
   const [doc2, setDoc2] = React.useState({ nameDoc: '', dadoDoc: '' });
+  const [check, setCheck] = React.useState(true);
   const arrayDoc = [
     {
       nomeDocumento: doc1.nameDoc,
@@ -26,7 +27,7 @@ export default function FormCustomer() {
       dadoDocumento: doc2.dadoDoc,
     }
   ];
-  const setCustomer = {
+  const getCustomer = {
     nomeCliente: name,
     tipo: type,
     ativo: status,
@@ -48,34 +49,44 @@ export default function FormCustomer() {
   } , [editCustomer]);
 
   const handleEdit = async () => {
-    await axios
-      .put(`http://localhost:3001/customers/${editCustomer.id}`, setCustomer)
-      .then((res) => res.data)
-      .catch((err) => err.response);
     
     const index = customers.findIndex(customer => customer.id === editCustomer.id);
-    const newCustomer = { ...customers[index], ...setCustomer, grupo: { nome: group } };
+    const newCustomer = { ...customers[index], ...getCustomer, grupo: { nome: group } };
     delete newCustomer.documentosCliente;
-    setCustomers(prev => [...prev.slice(0, index), newCustomer, ...prev.slice(index + 1)]);
+    await axios
+      .put(`http://localhost:3001/customers/${editCustomer.id}`, getCustomer)
+      .then((res) => {
+        setCustomers(prev => [...prev.slice(0, index), newCustomer, ...prev.slice(index + 1)]);
+        return res.data;
+      })
+      .catch((err) => {
+        setCheck(false);
+        return err.response;
+      });
   }
 
   const handleSubmit = async () => {
-    const customer = await axios
-      .post('http://localhost:3001/customers', setCustomer)
-      .then((res) => res.data)
-      .catch((err) => err.response);
-    
-    setCustomers(prev => [
-      ...prev, { 
-        id: customer.id,
-        ...setCustomer,
-        grupo: { nome: setCustomer.grupo}
-      }
-    ]);
+    await axios
+      .post('http://localhost:3001/customers', getCustomer)
+      .then((res) => {
+        setCustomers(prev => [
+          ...prev, { 
+            id: res.data.id,
+            ...getCustomer,
+            grupo: { nome: getCustomer.grupo}
+          }
+        ]);
+        setCheck(true);
+      })
+      .catch((err) => {
+        setCheck(false);
+        return err.response;
+      });
   };
 
   return (
     <div className="forms-customer">
+      {!check && <p>Documento já cadastrado</p>}
       <TextField
         id="outlined-error"
         label="Nome do cliente"

@@ -18,10 +18,14 @@ code {
   margin-top: 100px;
   padding-bottom: 50px;
   width: 500px;
-  height: 500px;
+  height: 550px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.forms-customer p {
+  color: rgb(243, 1, 1);
 }
 
 .forms-group {

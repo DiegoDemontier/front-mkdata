@@ -11,7 +11,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 
 export default function CustomerTable() {
-  const { customers, setEditCustomer, editCustomer } = React.useContext(InfoContext);
+  const { customers, setEditCustomer, setCustomers } = React.useContext(InfoContext);
   const [ toogle, setToogle ] = React.useState(true);
 
   const handleEdit = (group) => {
@@ -38,13 +38,13 @@ export default function CustomerTable() {
   }
 
   const handleDelete = async (id) => {
-    /* await axios
-      .delete(`http://localhost:3001/customer/${id}`)
+    await axios
+      .delete(`http://localhost:3001/customers/${id}`)
       .then((res) => res.data)
       .catch((err) => err.response);
     
-    const index = data.filter(group => group.id !== id);
-    setData(index); */
+    const filterCustomers = customers.filter(customer => customer.id !== id);
+    setCustomers(filterCustomers);
   }
 
   return (
