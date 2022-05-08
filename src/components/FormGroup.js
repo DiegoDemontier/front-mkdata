@@ -68,7 +68,7 @@ export default function BasicSelect() {
           editData.nameGroup.length > 0 ? () => handleEdit() : handleSubmit
         }
       >
-        {editData.nameGroup.length > 0 ? 'Salva' : 'Criar'}
+        {editData.nameGroup.length > 0 ? 'Salva' : 'Adicionar'}
       </Button>
     </div>
   );

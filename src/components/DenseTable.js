@@ -8,9 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import InfoContext from '../context/infoContext';
 import { Button } from '@mui/material';
+import axios from 'axios';
 
 export default function DenseTable() {
-  const { data, setEditData } = React.useContext(InfoContext);
+  const { data, setEditData, setData } = React.useContext(InfoContext);
   const [ toogle, setToogle ] = React.useState(true);
 
   const handleClick = (group) => {
@@ -28,6 +29,16 @@ export default function DenseTable() {
         nameGroup: '',
       });
     }
+  }
+
+  const handleDelete = async (id) => {
+    await axios
+      .delete(`http://localhost:3001/groups/${id}`)
+      .then((res) => res.data)
+      .catch((err) => err.response);
+    
+    const index = data.filter(group => group.id !== id);
+    setData(index);
   }
 
   return (
@@ -60,7 +71,15 @@ export default function DenseTable() {
                 Editar
               </Button>
               </TableCell>
-              <TableCell align="right">{row.ativo ? 'Ativo': 'Desativado'}</TableCell>
+              <TableCell align="right">
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={ () => handleDelete(row.id) }
+              >
+                Deletar
+              </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
