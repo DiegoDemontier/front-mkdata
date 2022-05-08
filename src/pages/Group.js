@@ -1,12 +1,27 @@
 import React from 'react';
-import DenseTable from '../components/DenseTable';
+import GroupTable from '../components/GroupTable';
 import FormGroup from '../components/FormGroup';
+import FormCustomer from '../components/FormCustomer';
 
 export default function Group() {
+  const grudGroup = () => {
+    return (
+      <div className="group">
+        <FormGroup />
+        <GroupTable />
+      </div>
+    )
+  }
+
+  const grudCustomer = () => {
+    return (
+      <FormCustomer />
+    )
+  }
   return (
-    <div className="group">
-      <FormGroup />
-      <DenseTable />
+    <div>
+      {grudCustomer()}
+      {/* {grudGroup()} */}
     </div>
   );
 };

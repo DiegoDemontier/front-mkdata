@@ -10,7 +10,7 @@ import InfoContext from '../context/infoContext';
 import { Button } from '@mui/material';
 import axios from 'axios';
 
-export default function DenseTable() {
+export default function GroupTable() {
   const { data, setEditData, setData } = React.useContext(InfoContext);
   const [ toogle, setToogle ] = React.useState(true);
 
