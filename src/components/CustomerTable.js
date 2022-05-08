@@ -11,22 +11,28 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 
 export default function CustomerTable() {
-  const { customers, setEditData, setData } = React.useContext(InfoContext);
+  const { customers, setEditCustomer, editCustomer } = React.useContext(InfoContext);
   const [ toogle, setToogle ] = React.useState(true);
 
-  const handleClick = (group) => {
+  const handleEdit = (group) => {
     setToogle(prev => !prev);
     if (toogle) {
-      setEditData({
+      setEditCustomer({
         id: group.id,
-        status: group.ativo,
-        nameGroup: group.nome,
+        nomeCliente: group.nomeCliente,
+        tipo: group.tipo,
+        ativo: group.ativo,
+        grupo: group.grupo.nome,
+        documentos: group.documentos,
       });
     } else {
-      setEditData({
+      setEditCustomer({
         id: '',
-        status: '',
-        nameGroup: '',
+        nomeCliente: '',
+        tipo: '',
+        ativo: '',
+        grupo: '',
+        documentos: [],
       });
     }
   }
@@ -70,7 +76,7 @@ export default function CustomerTable() {
               <Button
                 variant="outlined"
                 size="small"
-                onClick={ () => handleClick(row) }
+                onClick={ () => handleEdit(row) }
               >
                 Editar
               </Button>

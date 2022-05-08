@@ -14,7 +14,7 @@ export default function GroupTable() {
   const { data, setEditData, setData } = React.useContext(InfoContext);
   const [ toogle, setToogle ] = React.useState(true);
 
-  const handleClick = (group) => {
+  const handleEdit = (group) => {
     setToogle(prev => !prev);
     if (toogle) {
       setEditData({
@@ -37,8 +37,8 @@ export default function GroupTable() {
       .then((res) => res.data)
       .catch((err) => err.response);
     
-    const index = data.filter(group => group.id !== id);
-    setData(index);
+    const getGroup = data.filter(group => group.id !== id);
+    setData(getGroup);
   }
 
   return (
@@ -66,7 +66,7 @@ export default function GroupTable() {
               <Button
                 variant="outlined"
                 size="small"
-                onClick={ () => handleClick(row) }
+                onClick={ () => handleEdit(row) }
               >
                 Editar
               </Button>

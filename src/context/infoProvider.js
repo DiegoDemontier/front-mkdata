@@ -5,6 +5,14 @@ import InfoContext from './infoContext';
 export default function InfoProvider({ children }) {
   const [data, setData] = React.useState([]);
   const [customers, setCustomers] = React.useState([]);
+  const [editCustomer, setEditCustomer] = React.useState({
+    id: '',
+    nomeCliente: '',
+    tipo: '',
+    ativo: '',
+    grupo: '',
+    documentos: [],
+  });
   const [editData, setEditData] = React.useState({
     id: '',
     status: '',
@@ -30,7 +38,6 @@ export default function InfoProvider({ children }) {
         .catch((err) => (err) => err.response);
         setCustomers(request);
     };
-    console.log(customers);
     requestGroups();
   } , []);
 
@@ -41,6 +48,8 @@ export default function InfoProvider({ children }) {
     setEditData,
     customers,
     setCustomers,
+    setEditCustomer,
+    editCustomer,
   };
 
   return (

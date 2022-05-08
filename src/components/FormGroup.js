@@ -65,7 +65,7 @@ export default function FormGroup() {
         variant="outlined"
         size="large"
         onClick={ 
-          editData.nameGroup.length > 0 ? () => handleEdit() : handleSubmit
+          editData.nameGroup.length > 0 ? handleEdit : handleSubmit
         }
       >
         {editData.nameGroup.length > 0 ? 'Salva' : 'Adicionar'}

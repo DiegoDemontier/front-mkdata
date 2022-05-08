@@ -9,49 +9,57 @@ import axios from 'axios';
 import InfoContext from '../context/infoContext';
 
 export default function FormCustomer() {
-  const { data, setCustomers, editData } = React.useContext(InfoContext);
+  const { data, customers, setCustomers, editCustomer } = React.useContext(InfoContext);
   const [status, setStatus] = React.useState('');
   const [name, setName] = React.useState('');
   const [type, setType] = React.useState('');
   const [group, setGroup] = React.useState('');
   const [doc1, setDoc1] = React.useState({ nameDoc: '', dadoDoc: '' });
   const [doc2, setDoc2] = React.useState({ nameDoc: '', dadoDoc: '' });
-
-  const field = (label, value, setValue) => {
-    return (
-      <TextField 
-        id="outlined-basic"
-        label={label}
-        variant="outlined"
-        value={value.dadoDoc}
-        onChange={(e) => setValue({
-          nameDoc: label,
-          dadoDoc: e.target.value,
-        })}
-      />
-    )
+  const arrayDoc = [
+    {
+      nomeDocumento: doc1.nameDoc,
+      dadoDocumento: doc1.dadoDoc,
+    },
+    {
+      nomeDocumento: doc2.nameDoc,
+      dadoDocumento: doc2.dadoDoc,
+    }
+  ];
+  const setCustomer = {
+    nomeCliente: name,
+    tipo: type,
+    ativo: status,
+    grupo: group,
+    documentosCliente: arrayDoc.filter(e => e.dadoDocumento !== ''),
   }
 
-  const handleClick = async () => {
-    const arrayDoc = [
-      {
-        nomeDocumento: doc1.nameDoc,
-        dadoDocumento: doc1.dadoDoc,
-      },
-      {
-        nomeDocumento: doc2.nameDoc,
-        dadoDocumento: doc2.dadoDoc,
-      }
-    ]
+  React.useEffect (() => {
+    setName(editCustomer.nomeCliente);
+    setStatus(editCustomer.ativo);
+    setType(editCustomer.tipo);
+    setGroup(editCustomer.grupo);
+    setDoc1({ nameDoc: editCustomer.documentos[0]?.nomeDocumento || '',
+       dadoDoc: editCustomer.documentos[0]?.documentosClientes.dadoDocumento || ''
+      });
+    setDoc2({ nameDoc: editCustomer.documentos[1]?.nomeDocumento || '',
+      dadoDoc: editCustomer.documentos[1]?.documentosClientes.dadoDocumento || ''
+     });
+  } , [editCustomer]);
 
-    const setCustomer = {
-      nomeCliente: name,
-      tipo: type,
-      ativo: status,
-      grupo: group,
-      documentosCliente: arrayDoc.filter(e => e.dadoDocumento !== ''),
-    }
+  const handleEdit = async () => {
+    await axios
+      .put(`http://localhost:3001/customers/${editCustomer.id}`, setCustomer)
+      .then((res) => res.data)
+      .catch((err) => err.response);
     
+    const index = customers.findIndex(customer => customer.id === editCustomer.id);
+    const newCustomer = { ...customers[index], ...setCustomer, grupo: { nome: group } };
+    delete newCustomer.documentosCliente;
+    setCustomers(prev => [...prev.slice(0, index), newCustomer, ...prev.slice(index + 1)]);
+  }
+
+  const handleSubmit = async () => {
     const customer = await axios
       .post('http://localhost:3001/customers', setCustomer)
       .then((res) => res.data)
@@ -100,8 +108,8 @@ export default function FormCustomer() {
             label="tipo"
             onChange={(e) => setType(e.target.value)}
           >
-            <MenuItem value={'pj'}>Pessoa Jurídica</MenuItem>
-            <MenuItem value={'pf'}>Pessoa Física</MenuItem>
+            <MenuItem value={'PJ'}>Pessoa Jurídica</MenuItem>
+            <MenuItem value={'PF'}>Pessoa Física</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -126,14 +134,32 @@ export default function FormCustomer() {
           </Select>
         </FormControl>
       </Box>
-      {type === 'pj' ? field("CNPJ", doc1.dadoDoc, setDoc1) : field("CPF", doc1.dadoDoc, setDoc1)}
-      {type === 'pj' ? field("IE", doc2.dadoDoc, setDoc2) : field("RG", doc2.dadoDoc, setDoc2)}
+      <TextField 
+        id="outlined-basic"
+        label={type === 'PJ' ? "CNPJ": "CPF"}
+        variant="outlined"
+        value={doc1.dadoDoc}
+        onChange={(e) => setDoc1({
+          nameDoc: type === 'PJ' ? "CNPJ": "CPF",
+          dadoDoc: e.target.value,
+        })}
+      />
+      <TextField 
+        id="outlined-basic"
+        label={type === 'PJ' ? "IE": "RG"}
+        variant="outlined"
+        value={doc2.dadoDoc}
+        onChange={(e) => setDoc2({
+          nameDoc: type === 'PJ' ? "IE": "RG",
+          dadoDoc: e.target.value,
+        })}
+      />
       <Button
         variant="outlined"
         size="large"
-        onClick={handleClick}
+        onClick={editCustomer.nomeCliente.length > 0 ? handleEdit : handleSubmit}
       >
-        Salvar
+        {editCustomer.nomeCliente.length > 0 ? 'Salva' : 'Adicionar'}
       </Button>
     </div>
   );

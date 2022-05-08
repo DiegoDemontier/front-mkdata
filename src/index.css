@@ -33,6 +33,16 @@ code {
   justify-content: space-between;
 }
 
+.form-group {
+  padding-top: 100px;
+  height: 350px;
+  width: 300px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .group {
   width: 700px;
   margin: auto;
@@ -40,7 +50,6 @@ code {
 
 .customer {
   padding-top: 100px;
-
   display: flex;
   width: 1200px;
   margin: auto;
