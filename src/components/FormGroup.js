@@ -6,16 +6,19 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Button, TextField } from '@mui/material';
 import axios from 'axios';
+import InfoContext from '../context/infoContext';
 
 export default function BasicSelect() {
+  const { setData } = React.useContext(InfoContext);
   const [status, setStatus] = React.useState('');
   const [nameGroup, setNameGroup] = React.useState('');
 
   const handleSubmit = async () => {
-    await axios
+    const group = await axios
       .post('http://localhost:3001/groups', { nome: nameGroup, ativo: status })
       .then((res) => res.data)
       .catch((err) => err.response);
+    setData(prev => [...prev, group]);
   }
 
   return (
