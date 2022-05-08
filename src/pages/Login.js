@@ -9,7 +9,6 @@ export default function FormGroup() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    console.log(user, password);
     if (user === "admin" && password === "admin") {
       navigate("/admin");
     }

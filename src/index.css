@@ -15,9 +15,24 @@ code {
 .form-group {
   margin: auto;
   margin-top: 150px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   width: 300px;
   height: 40vh;
   justify-content: space-around;
+}
+
+.forms-group {
+  padding-top: 100px;
+  width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.group {
+  width: 700px;
+  margin: auto;
 }
