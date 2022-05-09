@@ -15,7 +15,6 @@ code {
 .forms-customer {
   margin: auto;
   margin-right: 100px;
-  margin-top: 100px;
   padding-bottom: 50px;
   width: 500px;
   height: 550px;
@@ -57,4 +56,21 @@ code {
   display: flex;
   width: 1200px;
   margin: auto;
+}
+
+.header {
+  width: 700px;
+  margin: auto;
+  text-align: center;
+  color: #1976d2;
+
+}
+
+button {
+  background-color: rgb(255, 255, 255);
+  color: rgb(25, 118, 210);
+  border: none;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
 }

@@ -22,7 +22,7 @@ export default function InfoProvider({ children }) {
   React.useEffect (() => {
     const requestGroups = async () => {
       const request = await axios
-        .get(`http://localhost:3001/groups`)
+        .get(`https://crud-mkdata.herokuapp.com/groups`)
         .then((res) => res.data)
         .catch((err) => (err) => err.response);
         setData(request);
@@ -33,7 +33,7 @@ export default function InfoProvider({ children }) {
   React.useEffect (() => {
     const requestGroups = async () => {
       const request = await axios
-        .get(`http://localhost:3001/customers`)
+        .get(`https://crud-mkdata.herokuapp.com/customers`)
         .then((res) => res.data)
         .catch((err) => (err) => err.response);
         setCustomers(request);

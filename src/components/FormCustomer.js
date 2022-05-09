@@ -54,9 +54,15 @@ export default function FormCustomer() {
     const newCustomer = { ...customers[index], ...getCustomer, grupo: { nome: group } };
     delete newCustomer.documentosCliente;
     await axios
-      .put(`http://localhost:3001/customers/${editCustomer.id}`, getCustomer)
+      .put(`https://crud-mkdata.herokuapp.com/customers/${editCustomer.id}`, getCustomer)
       .then((res) => {
         setCustomers(prev => [...prev.slice(0, index), newCustomer, ...prev.slice(index + 1)]);
+        setStatus('');
+        setName('');
+        setType('');
+        setGroup('');
+        setDoc1({ nameDoc: '', dadoDoc: '' });
+        setDoc2({ nameDoc: '', dadoDoc: '' });
         return res.data;
       })
       .catch((err) => {
@@ -67,7 +73,7 @@ export default function FormCustomer() {
 
   const handleSubmit = async () => {
     await axios
-      .post('http://localhost:3001/customers', getCustomer)
+      .post('https://crud-mkdata.herokuapp.com/customers', getCustomer)
       .then((res) => {
         setCustomers(prev => [
           ...prev, { 
@@ -76,6 +82,12 @@ export default function FormCustomer() {
             grupo: { nome: getCustomer.grupo}
           }
         ]);
+        setStatus('');
+        setName('');
+        setType('');
+        setGroup('');
+        setDoc1({ nameDoc: '', dadoDoc: '' });
+        setDoc2({ nameDoc: '', dadoDoc: '' });
         setCheck(true);
       })
       .catch((err) => {

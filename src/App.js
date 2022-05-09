@@ -3,7 +3,7 @@ import {
   BrowserRouter,
   Routes,
   Route, } from "react-router-dom";
-import Group from './pages/Group';
+import Admin from './pages/Admin';
 import InfoProvider from './context/infoProvider';
 
 
@@ -13,7 +13,7 @@ function App() {
       <InfoProvider>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="admin" element={<Group />} />
+          <Route path="admin" element={<Admin />} />
         </Routes>
       </InfoProvider>
   </BrowserRouter>

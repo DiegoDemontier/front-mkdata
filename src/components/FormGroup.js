@@ -20,7 +20,7 @@ export default function FormGroup() {
 
   const handleSubmit = async () => {
     const group = await axios
-      .post('http://localhost:3001/groups', { nome: nameGroup, ativo: status })
+      .post('https://crud-mkdata.herokuapp.com/groups', { nome: nameGroup, ativo: status })
       .then((res) => res.data)
       .catch((err) => err.response);
     setData(prev => [...prev, group]);
@@ -28,7 +28,7 @@ export default function FormGroup() {
 
   const handleEdit = async () => {
     await axios
-      .put(`http://localhost:3001/groups/${editData.id}`, { nome: nameGroup, ativo: status })
+      .put(`https://crud-mkdata.herokuapp.com/groups/${editData.id}`, { nome: nameGroup, ativo: status })
       .then((res) => res.data)
       .catch((err) => err.response);
     

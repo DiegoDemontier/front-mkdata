@@ -33,7 +33,7 @@ export default function GroupTable() {
 
   const handleDelete = async (id) => {
     await axios
-      .delete(`http://localhost:3001/groups/${id}`)
+      .delete(`https://crud-mkdata.herokuapp.com/groups/${id}`)
       .then((res) => res.data)
       .catch((err) => err.response);
     

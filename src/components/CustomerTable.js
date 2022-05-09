@@ -39,7 +39,7 @@ export default function CustomerTable() {
 
   const handleDelete = async (id) => {
     await axios
-      .delete(`http://localhost:3001/customers/${id}`)
+      .delete(`https://crud-mkdata.herokuapp.com/customers/${id}`)
       .then((res) => res.data)
       .catch((err) => err.response);
     
