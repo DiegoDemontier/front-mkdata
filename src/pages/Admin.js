@@ -28,11 +28,11 @@ export default function Admin() {
   return (
     <div>
       <Header
-        title={toogle ? "Tabela de Grupos": "Tabela de Clientes"}
-        subTitles={toogle ? "Ir tabela de Clientes": "Ir tabela de Grupos"}
+        title={!toogle ? "Tabela de Grupos": "Tabela de Clientes"}
+        subTitles={!toogle ? "Ir tabela de Clientes": "Ir tabela de Grupos"}
         setToogle={setToogle}
       />
-      {toogle ? grudGroup() : grudCustomer()}
+      {!toogle ? grudGroup() : grudCustomer()}
     </div>
   );
 };
